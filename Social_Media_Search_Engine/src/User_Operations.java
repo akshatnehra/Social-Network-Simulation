@@ -23,9 +23,9 @@ public class User_Operations {
     }
     
     // Assign random friends to each user
-    public static void assignFriends(List<User> users) {
+    public static void assignFriends(List<User> users, int maxFriendsLimit) {
         for (User user : users) {
-        	int numOfFriends = (int) (Math.random() * Math.min(1001, users.size()));
+        	int numOfFriends = (int) (Math.random() * Math.min(maxFriendsLimit+1, users.size()));
         	
         	// Set in order to prevent addition of duplicate friends
             Set<Integer> friendsSet = new HashSet<>();

@@ -8,6 +8,7 @@ public class Start {
 		// All the variable Declarations
 		int numberOfUsers, choice;
 		String userDetailsFilePath = "./src/resources/user_data.txt";
+		int maxFriendsLimit = 50;
 		
 		// Asking user for number of users to create
 		Scanner scn = new Scanner(System.in);
@@ -18,15 +19,20 @@ public class Start {
         List<User> users = User_Operations.generateUserData(numberOfUsers);
         System.out.println(numberOfUsers + " have been created successfully!");
 
-        // Assign friends to each user
-        User_Operations.assignFriends(users);
+        // Assign friends to each user (maxFriendsLimit inclusive)
+        User_Operations.assignFriends(users, maxFriendsLimit);
         System.out.println("Assigned random friends to all the users successfully!");
         
         // Insert all users in Trie to search
         TrieST<Integer> trie = Matching.prepareTrie(users);
         
+        // Insert all users in the GRAPH 
+        for(User user : users) {
+        	Friends.addUser(user.getId(), user.getFriends());
+        }
+        
         boolean whileCondition = true;
-        // Infinite loop that will stop on certain input by the user
+        // Infinite loop that will stop on certain input (14) by the user
         while(whileCondition) {
         	System.out.println();
             System.out.println("Enter your choice, which operation would you like to perform: ");
@@ -61,8 +67,41 @@ public class Start {
             		Matching.searchUser(trie, userInput);   
             		break;
             	case 3:
+            		System.out.println("Enter the userid of first user...");
+            		int user1 = scn.nextInt();
+            		System.out.println("Enter the userid of second user...");
+            		int user2 = scn.nextInt();
+            		
+            		List<Integer> mutualFriends = Friends.findMutualFriends(user1, user2);
+            		if(mutualFriends.size() <= 0) {
+            			System.out.println("No mutual friends for " + user1 + " and " + user2);
+            		}
+            		
+            		System.out.println("Users have " + mutualFriends.size() + " mutual friends.");
+            		for(int user : mutualFriends) {
+            			System.out.println("\t\tName: " + users.get(user).getFullName() + ", userid: " + user);
+            		}
             		break;
             	case 4:
+            		System.out.println("Enter the userid of first user...");
+            		user1 = scn.nextInt();
+            		System.out.println("Enter the userid of second user...");
+            		user2 = scn.nextInt();
+            		
+            		List<Integer> path = Friends.findDistance(user1, user2);
+            		
+            		if(path.size() == 2) {
+            			System.out.println("They are already friends!");
+            		}
+            		
+            		if(path.size() > 2) {
+            			System.out.println("They can become in " + (path.size()-2) + " steps.");
+            		}
+            		
+            		for(int node : path) {
+            			System.out.print("\t\tName: " + users.get(node).getFullName() + ", userid: " + node + " ----> ");
+            		}
+            		System.out.println();
             		break;
             	case 5:
             		break;
