@@ -9,8 +9,8 @@ public class User_Operations {
     	String fname_path = "./src/resources/first_names.txt";
         String lname_path = "./src/resources/last_names.txt";
 
-        List<String> firstNames = File_Handling.nameGenerator(fname_path);
-        List<String> lastNames = File_Handling.nameGenerator(lname_path);
+        List<String> firstNames = File_Handling.fileReader(fname_path);
+        List<String> lastNames = File_Handling.fileReader(lname_path);
     	
     	List<User> users = new ArrayList<>();
         
@@ -40,6 +40,59 @@ public class User_Operations {
             
             // Add all friends in set into its friendList
             user.getFriends().addAll(friendsSet);
+        }
+    }
+    
+    public static void assignHobbies(List<User> users, List<String> hobbies, int maxHobbyLimit) {
+        for (User user : users) {
+            // Generate a random number of hobbies to assign to the user
+            int numOfHobbies = (int) (Math.random() * (maxHobbyLimit+1));
+
+            // Set in order to prevent addition of duplicate hobbies
+            Set<String> userHobbiesSet = new HashSet<>();
+            while (userHobbiesSet.size() < numOfHobbies) {
+                int randomIndex = (int) (Math.random() * hobbies.size());
+                String hobby = hobbies.get(randomIndex);
+                userHobbiesSet.add(hobby);
+            }
+
+            // Add all hobbies in set
+            user.setHobbies(userHobbiesSet);
+        }
+    }
+    
+    // Assign random hashtags to each user
+    public static void assignHashtags(List<User> users, List<String> hashtags, int maxHashtagLimit) {
+        for (User user : users) {
+            int numOfHashtags = (int) (Math.random() * (maxHashtagLimit + 1));
+
+            // Set in order to prevent addition of duplicate hashtags
+            Set<String> hashtagsSet = new HashSet<>();
+            while (hashtagsSet.size() < numOfHashtags) {
+                int randomIndex = (int) (Math.random() * hashtags.size());
+                String hashtag = hashtags.get(randomIndex);
+                hashtagsSet.add(hashtag);
+                
+                if(Start.hashmapCount.containsKey(hashtag)) {
+                	Start.hashmapCount.put(hashtag, Start.hashmapCount.get(hashtag) + 1);
+                } else {
+                	Start.hashmapCount.put(hashtag, 1);
+                }
+            }
+
+            // Add all hashtags in set
+            user.setHashtags(hashtagsSet);
+        }
+    }
+    
+    // Assign random location to each user
+    public static void assignLocationtoAllUsers(List<User> users, List<String> locations) {
+        for (User user : users) {
+        	// random index of location
+            int randomIndex = (int) (Math.random() * locations.size());
+            
+            // Set random location
+            user.setLocation(locations.get(randomIndex));
         }
     }
 }

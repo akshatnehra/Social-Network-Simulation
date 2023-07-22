@@ -8,7 +8,7 @@ import java.util.List;
 
 public class File_Handling {
 	// Read names from FILES and return List of String
-    public static List<String> nameGenerator(String filePath) {
+    public static List<String> fileReader(String filePath) {
         List<String> namesList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -24,7 +24,7 @@ public class File_Handling {
     public static void writeUserDataToFile(List<User> users, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (User user : users) {
-                writer.write(user.toStringWithFriends(users));
+                writer.write(user.printUsersData(user));
                 writer.newLine();
             }
             System.out.println("User data successfully written to file: " + filePath);

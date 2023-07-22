@@ -2,13 +2,19 @@ import java.io.*;
 import java.util.*;
 
 public class Start {
+	
+	static HashMap<String, Integer> hashmapCount = new HashMap<>();
 
 	public static void main(String[] args) {
-		
 		// All the variable Declarations
 		int numberOfUsers, choice;
 		String userDetailsFilePath = "./src/resources/user_data.txt";
+		String userHobbiesFilePath = "./src/resources/hobbies.txt";
+		String userHashtagsFilePath = "./src/resources/hash_tags.txt";
+		String userLocationsFilePath = "./src/resources/cities.txt";
 		int maxFriendsLimit = 50;
+		int maxHobbiesLimit = 10;
+		int maxHashtagsLimit = 10;
 		
 		// Asking user for number of users to create
 		Scanner scn = new Scanner(System.in);
@@ -18,10 +24,26 @@ public class Start {
 		// Generate User Data
         List<User> users = User_Operations.generateUserData(numberOfUsers);
         System.out.println(numberOfUsers + " have been created successfully!");
+        
+        List<String> hobbies = File_Handling.fileReader(userHobbiesFilePath);
+        List<String> hashtags = File_Handling.fileReader(userHashtagsFilePath);
+        List<String> locations = File_Handling.fileReader(userLocationsFilePath);
 
         // Assign friends to each user (maxFriendsLimit inclusive)
         User_Operations.assignFriends(users, maxFriendsLimit);
         System.out.println("Assigned random friends to all the users successfully!");
+        
+        // Assign Hobbies to each user (maxHobbiesLimit inclusive)
+        User_Operations.assignHobbies(users, hobbies, maxHobbiesLimit);
+        System.out.println("Assigned random hobbies to all the users successfully!");
+        
+        // Assign Hashtags to each user (maxHashtagLimit inclusive)
+        User_Operations.assignHashtags(users, hashtags, maxHashtagsLimit);
+        System.out.println("Assigned random hashtags to all the users successfully!");
+        
+        // Assign a random location to each user 
+        User_Operations.assignLocationtoAllUsers(users, locations);
+        System.out.println("Assigned a random location to all the users successfully!");
         
         // Insert all users in Trie to search
         TrieST<Integer> trie = Matching.prepareTrie(users);
@@ -106,9 +128,14 @@ public class Start {
             	case 5:
             		break;
             	case 6:
-            		whileCondition = false;
+            		System.out.println("Enter userid whose twin friends you would like to find: ");
+            		int userid = scn.nextInt();
+            		Twin_Friend.findTwinFriend(userid, users);
             		break;
             	case 7:
+            		System.out.println("How many top hashtags would you like to see? ");
+            		int topN = scn.nextInt();
+            		Hashtag.findMostFamousHashtag(hashmapCount, topN);
             		break;
             	case 8:
             		break;
@@ -120,7 +147,7 @@ public class Start {
             		break;
             	case 11:
             		System.out.print("Enter userid of the user whose friends you would like to sort: ");
-            		int userid = scn.nextInt();
+            		userid = scn.nextInt();
             		Sorting.sortFriendsOfaUser(users, userid);
             		System.out.println("Friends of user " + users.get(userid).getFullName() + "(userid: " + users.get(userid).getId() + ") are now sorted as per their name.");
             		break;

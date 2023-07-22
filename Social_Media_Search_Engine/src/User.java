@@ -1,14 +1,28 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-// User class to represent user data
+
+	// User class to represent user data
     public class User {
         private int id;
         private String firstName;
         private String lastName;
         private List<Integer> friends;
-        public List<Integer> getFriends() {
+        private Set<String> hobbies;
+        private Set<String> hashtags;
+        private String location;
+        
+        public Set<String> getHashtags() {
+			return hashtags;
+		}
+
+		public void setHashtags(Set<String> hashtags) {
+			this.hashtags = hashtags;
+		}
+
+		public List<Integer> getFriends() {
 			return friends;
 		}
 
@@ -21,9 +35,20 @@ import java.util.List;
             this.firstName = firstName;
             this.lastName = lastName;
             this.friends = new ArrayList<>();
+            this.hobbies = new HashSet<>();
+            this.hashtags = new HashSet<>();
+            this.location = "";
         }
         
-        // Method to return user's full name
+        public String getLocation() {
+			return location;
+		}
+
+		public void setLocation(String location) {
+			this.location = location;
+		}
+
+		// Method will return user's full name
         public String getFullName() {
             return firstName + " " + lastName;
         }
@@ -36,6 +61,14 @@ import java.util.List;
             friends.add(friendId);
         }
 
+        public Set<String> getHobbies() {
+        	return hobbies;
+        }
+        
+        public void setHobbies(Set<String> hobbies) {
+        	this.hobbies = hobbies;
+        }
+        
         // Override toString() to print user data
         @Override
         public String toString() {
@@ -55,5 +88,20 @@ import java.util.List;
         // Method to get a formatted string with friends data
         public String toStringWithFriends(List<User> users) {
             return toString() + "\nFriends:\n" + getFormattedFriends(users);
+        }
+        
+        // Print data of all the users
+        public String printUsersData(User user) {
+        	StringBuilder sb = new StringBuilder();
+            sb.append("User ID: " + user.id);
+            sb.append("\nName: " + user.getFullName());
+            sb.append("\nFriends: " + user.friends.size());
+            sb.append("\nHobbies: " + user.hobbies);
+            sb.append("\nHashtags: " + user.hashtags);
+            sb.append("\nLocation: " + user.location);
+            sb.append("\nFriends:\n" + user.getFriends());
+            sb.append("\n\n");
+            
+            return sb.toString();
         }
     }
