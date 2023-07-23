@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +55,14 @@ public class User_Operations {
                 int randomIndex = (int) (Math.random() * hobbies.size());
                 String hobby = hobbies.get(randomIndex);
                 userHobbiesSet.add(hobby);
+                
+                HashMap<String, Set<Integer>> hobbiesMap = Start.categories.get("hobbies");
+                if(hobbiesMap.containsKey(hobby)) {
+                	hobbiesMap.get(hobby).add(user.getId());
+                } else {
+                	hobbiesMap.put(hobby, new HashSet<Integer>());
+                	hobbiesMap.get(hobby).add(user.getId());
+                }
             }
 
             // Add all hobbies in set
@@ -78,6 +87,14 @@ public class User_Operations {
                 } else {
                 	Start.hashmapCount.put(hashtag, 1);
                 }
+                
+                HashMap<String, Set<Integer>> hashtagsMap = Start.categories.get("hashtags");
+                if(hashtagsMap.containsKey(hashtag)) {
+                	hashtagsMap.get(hashtag).add(user.getId());
+                } else {
+                	hashtagsMap.put(hashtag, new HashSet<Integer>());
+                	hashtagsMap.get(hashtag).add(user.getId());
+                }
             }
 
             // Add all hashtags in set
@@ -93,6 +110,14 @@ public class User_Operations {
             
             // Set random location
             user.setLocation(locations.get(randomIndex));
+            
+            HashMap<String, Set<Integer>> locationsMap = Start.categories.get("locations");
+            if(locationsMap.containsKey(locations.get(randomIndex))) {
+            	locationsMap.get(locations.get(randomIndex)).add(user.getId());
+            } else {
+            	locationsMap.put(locations.get(randomIndex), new HashSet<Integer>());
+            	locationsMap.get(locations.get(randomIndex)).add(user.getId());
+            }
         }
     }
 }

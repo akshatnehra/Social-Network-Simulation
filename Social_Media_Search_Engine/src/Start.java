@@ -4,6 +4,7 @@ import java.util.*;
 public class Start {
 	
 	static HashMap<String, Integer> hashmapCount = new HashMap<>();
+	static HashMap<String, HashMap<String, Set<Integer>>> categories = new HashMap<>();
 
 	public static void main(String[] args) {
 		// All the variable Declarations
@@ -15,6 +16,12 @@ public class Start {
 		int maxFriendsLimit = 50;
 		int maxHobbiesLimit = 10;
 		int maxHashtagsLimit = 10;
+		int minCommonHobbyToSuggestFriend = 3;
+		
+		// Initializing HashMaps
+		categories.put("hobbies", new HashMap<>());
+		categories.put("hashtags", new HashMap<>());
+		categories.put("locations", new HashMap<>());
 		
 		// Asking user for number of users to create
 		Scanner scn = new Scanner(System.in);
@@ -126,10 +133,13 @@ public class Start {
             		System.out.println();
             		break;
             	case 5:
+            		System.out.println("Enter userid of the users to get their friend suggestions: ");
+            		int userid = scn.nextInt();
+            		Friend_Suggestion.suggestFriends(users, userid, minCommonHobbyToSuggestFriend);
             		break;
             	case 6:
             		System.out.println("Enter userid whose twin friends you would like to find: ");
-            		int userid = scn.nextInt();
+            		userid = scn.nextInt();
             		Twin_Friend.findTwinFriend(userid, users);
             		break;
             	case 7:
@@ -138,8 +148,13 @@ public class Start {
             		Hashtag.findMostFamousHashtag(hashmapCount, topN);
             		break;
             	case 8:
+            		Filter_Search.searchOnFilter(users);
             		break;
             	case 9:
+            		System.out.println("Enter the hashtag you want to add...");
+            		scn.nextLine();
+            		userInput = scn.nextLine();
+            		Validate_Add_Hashtag.validate(userInput, userHashtagsFilePath);
             		break;
             	case 10:
             		Sorting.sortUsersOnNames(users);
@@ -156,7 +171,6 @@ public class Start {
             		System.out.println("Friends of all the users are now sorted as per their name.");
             		break;
             	case 13:
-            		// Write all users in a file
                     File_Handling.writeUserDataToFile(users, userDetailsFilePath);
                     System.out.println("All the user data has been successfully written in the file: " + userDetailsFilePath);
             		break;
