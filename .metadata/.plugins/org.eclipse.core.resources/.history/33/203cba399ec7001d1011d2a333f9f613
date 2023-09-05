@@ -1,9 +1,0 @@
-import java.util.*;
-public class random_string {
-	public static void main(String[] args) {
-		StringBuilder str = new StringBuilder();
-		str = "test";
-		System.out.println(str);
-				
-	}
-}
