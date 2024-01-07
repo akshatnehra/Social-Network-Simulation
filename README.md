@@ -3,7 +3,7 @@
 
 This Social Network Simulation project is a command-line application that simulates a social network environment. It allows users to create profiles, connect with friends, share hobbies, use hashtags, and perform various operations on the network. This simulation is designed to demonstrate key concepts of data structures, file handling, trie, hashing, priority queue, regex, string matching and graph algorithms.
 
-
+**For more project details, see the [PDF Documentation](https://github.com/akshatnehra/Social-Network-Simulation/blob/main/Social%20Network%20Simulation.pdf).**
 
 
 ## Features
